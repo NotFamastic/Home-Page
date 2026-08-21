@@ -34,11 +34,11 @@ chrome.tabs.onCreated.addListener(async (tab) => {
 });
 const website = chrome.runtime.connect("YOUR_EXTENSION_ID");
 
-port.postMessage({
+website.postMessage({
   type: "hello",
   data: "test"
 });
 
-port.onMessage.addListener((message) => {
+website.onMessage.addListener((message) => {
   console.log(message);
 });
