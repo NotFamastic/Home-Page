@@ -7,7 +7,7 @@
     "default_popup": "default.html"
   },
     "background": {
-        "service_worker": "handler.js"
+        "service_worker": "handler.ts"
   },
   "permissions": ["activeTab","scripting","tabs","history","alarms"],
   "host_permissions": ["https://example.com/*"]
