@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "types": [],
+    "lib": ["DOM", "ES2020"],
+    "rootDir": "./src",
+    "outDir": "dist",
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts","src/**/*.tsx","src/css.d.ts"],
+  "exclude": []
+}
