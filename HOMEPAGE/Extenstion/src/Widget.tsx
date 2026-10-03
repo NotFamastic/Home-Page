@@ -1,41 +1,46 @@
-import {
-  Responsive,
-  useContainerWidth,
-  ReactGridLayout,
-} from "react-grid-layout";
-import type { LayoutItem } from "react-grid-layout";
 import { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
+import { Userdata } from "./Initital";
+import { CD, AD, UD } from "./Types";
+
 export { Clock };
 
-type clt /*clock type*/ = {
-  Time: {
-    enabled: "hidden" | "visible";
-    hour?: "numeric";
-    minute?: "2-digit";
-    second?: "2-digit";
-    hour12?: boolean;
-  };
-  Date: {
-    enabled: boolean;
-    weekday?: "long";
-    day?: "numeric";
-    month?: "long" | "short" | "numeric";
-    year?: "numeric";
-  };
-};
-function ClockHtml(s: clt) {
+function getlatestalarm(data: UD) {
+  const alarmlist: AD[] = data.SharedData.alarm;
+  if (alarmlist.length === 0) {
+    return undefined;
+  }
+
+  return alarmlist.reduce(function (PrevAlarm, NextAlarm) {
+    return NextAlarm.time > PrevAlarm.time ? PrevAlarm : NextAlarm;
+  });
+}
+
+function ClockHtml(s: CD) {
   const [Structure, _] = useState(s);
   const [t /*time*/, newt] = useState(new Date());
+  const [running, setRunning] = useState(false);
+  const [sec, setSec] = useState(0);
+  const [Alarm, newAlarm] = useState(getlatestalarm(Userdata));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+    if (!running) {
+      return;
+    }
+    const id = setInterval(() => setSec((sec) => sec + 0.1), 100);
+    return () => clearInterval(id);
+  }, [running]);
+  useEffect(() => {
+    const id = setInterval(() => newAlarm(getlatestalarm(Userdata)), 30000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="Clock">
-      <h2 style={{visibility: Structure.Time.enabled}}>
+      <h2 style={{ visibility: Structure.Time.enabled }}>
         {t.toLocaleTimeString([], {
           hour: Structure.Time.hour,
           minute: Structure.Time.minute,
@@ -43,7 +48,7 @@ function ClockHtml(s: clt) {
           hour12: Structure.Time.hour12,
         })}
       </h2>
-      <h3 style={{visibility: Structure.Time.enabled}}>
+      <h3 style={{ visibility: Structure.Time.enabled }}>
         {t.toLocaleDateString("en-US", {
           day: Structure.Date.day,
           month: Structure.Date.month,
@@ -51,23 +56,26 @@ function ClockHtml(s: clt) {
           weekday: Structure.Date.weekday,
         })}
       </h3>
-      <h3 style={{visibility: Structure.Time.enabled? /*if TRUE*/ "visible": /*else*/ "hidden",}}>
-        {t.toLocaleDateString("en-US", {
-          day: Structure.Date.day,
-          month: Structure.Date.month,
-          year: Structure.Date.year,
-          weekday: Structure.Date.weekday,
-        })}
+      <h3>
+        {Alarm ? Alarm.name : "None"} at {Alarm ? Alarm.time : 0}
       </h3>
+      <button
+        style={{ background: running ? "red" : "green" }}
+        onClick={function () {
+          setRunning(!running);
+        }}
+      >
+        {sec}
+      </button>
     </div>
   );
 }
 class Clock {
-  //*Property
   id: string;
   type: any;
-  stucture:clt;
-  constructor(id: string, s: clt) {
+  stucture: CD;
+
+  constructor(id: string, s: CD) {
     this.id = id;
     this.stucture = s;
   }
