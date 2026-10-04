@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { Userdata } from "./Initital";
-import { CD, AD, UD } from "./Types";
-
+import React, { useEffect, useState } from "react";
+//!
 export { Clock };
+//!
+import { Userdata } from "./Initial";
+import { CD, AD, UD, W } from "./Types";
 
 function getNextAlarm(data: UD) {
-  const alarmlist: AD[] = data.SharedData.alarm;
-  if (alarmlist.length === 0) {
-    return undefined;
-  }
+  const alarmlist: AD[] | undefined = data.SharedData.alarm;
 
-  return alarmlist.reduce(function (PrevAlarm, NextAlarm) {
-    return NextAlarm.time > PrevAlarm.time ? PrevAlarm : NextAlarm;
-  });
+  return alarmlist
+    ? alarmlist.reduce(function (PrevAlarm, NextAlarm) {
+        return NextAlarm.time > PrevAlarm.time ? PrevAlarm : NextAlarm;
+      })
+    : undefined;
 }
 
-function ClockHtml(s: CD) {
+function ClockHtml(s: CD): React.ReactElement {
   const [Structure, _] = useState(s);
   const [t /*time*/, newt] = useState(new Date());
   const [running, setRunning] = useState(false);
@@ -42,25 +42,25 @@ function ClockHtml(s: CD) {
     <div className="Clock">
       {Structure.Time.enabled && (
         <h2>
-        {t.toLocaleTimeString([], {
-          hour: Structure.Time.hour,
-          minute: Structure.Time.minute,
-          second: Structure.Time.second,
-          hour12: Structure.Time.hour12,
-        })}
-      </h2>
+          {t.toLocaleTimeString([], {
+            hour: Structure.Time.hour,
+            minute: Structure.Time.minute,
+            second: Structure.Time.second,
+            hour12: Structure.Time.hour12,
+          })}
+        </h2>
       )}
-      {Structure.Date.enabled&& (
-       <h3>
-        {t.toLocaleDateString("en-US", {
-          day: Structure.Date.day,
-          month: Structure.Date.month,
-          year: Structure.Date.year,
-          weekday: Structure.Date.weekday,
-        })}
-      </h3>
+      {Structure.Date.enabled && (
+        <h3>
+          {t.toLocaleDateString("en-US", {
+            day: Structure.Date.day,
+            month: Structure.Date.month,
+            year: Structure.Date.year,
+            weekday: Structure.Date.weekday,
+          })}
+        </h3>
       )}
-      
+
       {Alarm && (
         <h3>
           {Alarm.name} at {Alarm.time}
@@ -77,16 +77,22 @@ function ClockHtml(s: CD) {
     </div>
   );
 }
-class Clock {
+class Widget {
   id: string;
-  type: any;
-  stucture: CD;
-
-  constructor(id: string, s: CD, ) {
+  type: W;
+  widgData: CD;
+  html: React.ReactElement;
+  constructor(id: string, type: W, widgData: CD, html: React.ReactElement) {
     this.id = id;
-    this.type ="Clock"
-    this.stucture = s;
-
+    this.type = type;
+    this.widgData = widgData;
+    this.html = html;
+  }
+}
+class Clock extends Widget {
+  pauseFunc?: () => void;
+  constructor(id: string, s: CD) {
+    super(id, "clock", s, <ClockHtml {...s} />);
   }
 }
 
