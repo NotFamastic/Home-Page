@@ -5,12 +5,13 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "types": [],
+    "types": ["vite/client"],
     "lib": ["DOM", "ES2020"],
-    "rootDir": "./src",
-    "outDir": "dist",
-    "sourceMap": true
+    "noEmit": true
   },
-  "include": ["src/**/*.ts","src/**/*.tsx","src/css.d.ts"],
-  "exclude": []
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/css.d.ts"
+  ]
 }

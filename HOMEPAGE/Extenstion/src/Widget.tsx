@@ -4,7 +4,7 @@ import { CD, AD, UD } from "./Types";
 
 export { Clock };
 
-function getlatestalarm(data: UD) {
+function getNextAlarm(data: UD) {
   const alarmlist: AD[] = data.SharedData.alarm;
   if (alarmlist.length === 0) {
     return undefined;
@@ -20,7 +20,7 @@ function ClockHtml(s: CD) {
   const [t /*time*/, newt] = useState(new Date());
   const [running, setRunning] = useState(false);
   const [sec, setSec] = useState(0);
-  const [Alarm, newAlarm] = useState(getlatestalarm(Userdata));
+  const [Alarm, newAlarm] = useState(getNextAlarm(Userdata));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 1000);
@@ -34,13 +34,14 @@ function ClockHtml(s: CD) {
     return () => clearInterval(id);
   }, [running]);
   useEffect(() => {
-    const id = setInterval(() => newAlarm(getlatestalarm(Userdata)), 30000);
+    const id = setInterval(() => newAlarm(getNextAlarm(Userdata)), 30000);
     return () => clearInterval(id);
   }, []);
 
   return (
     <div className="Clock">
-      <h2 style={{ visibility: Structure.Time.enabled }}>
+      {Structure.Time.enabled && (
+        <h2>
         {t.toLocaleTimeString([], {
           hour: Structure.Time.hour,
           minute: Structure.Time.minute,
@@ -48,7 +49,9 @@ function ClockHtml(s: CD) {
           hour12: Structure.Time.hour12,
         })}
       </h2>
-      <h3 style={{ visibility: Structure.Time.enabled }}>
+      )}
+      {Structure.Date.enabled&& (
+       <h3>
         {t.toLocaleDateString("en-US", {
           day: Structure.Date.day,
           month: Structure.Date.month,
@@ -56,9 +59,13 @@ function ClockHtml(s: CD) {
           weekday: Structure.Date.weekday,
         })}
       </h3>
-      <h3>
-        {Alarm ? Alarm.name : "None"} at {Alarm ? Alarm.time : 0}
-      </h3>
+      )}
+      
+      {Alarm && (
+        <h3>
+          {Alarm.name} at {Alarm.time}
+        </h3>
+      )}
       <button
         style={{ background: running ? "red" : "green" }}
         onClick={function () {
@@ -75,9 +82,11 @@ class Clock {
   type: any;
   stucture: CD;
 
-  constructor(id: string, s: CD) {
+  constructor(id: string, s: CD, ) {
     this.id = id;
+    this.type ="Clock"
     this.stucture = s;
+
   }
 }
 

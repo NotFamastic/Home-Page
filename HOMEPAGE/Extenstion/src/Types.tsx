@@ -1,4 +1,6 @@
 export { CD, AD, UD };
+import type { LayoutItem } from "react-grid-layout";
+
 const SampleUserData: UD = {
   Widgets: {},
   SharedData: {
@@ -11,14 +13,14 @@ const SampleUserData: UD = {
 type CD /*clock Data*/ = {
   type: "Clock";
   Time: {
-    enabled: "hidden" | "visible";
+    enabled: boolean;
     hour?: "numeric";
     minute?: "2-digit";
     second?: "2-digit";
     hour12?: boolean;
   };
   Date: {
-    enabled: "hidden" | "visible";
+    enabled: boolean;
     weekday?: "long";
     day?: "numeric";
     month?: "long" | "short" | "numeric";
@@ -37,7 +39,7 @@ type UD /*User Data*/ = {
     [Id: string]: CD;
   };
   SharedData: {
-    layout: { i: string; x: number; y: number; w: number; h: number }[];
+    layout: LayoutItem[];
     alarm: AD[];
   };
   Settings: {};
