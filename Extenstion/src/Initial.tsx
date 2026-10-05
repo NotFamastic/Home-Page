@@ -13,12 +13,14 @@ import { createRoot } from "react-dom/client";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+import Image from 'react-bootstrap/Image';
 //!
 export { Userdata };
 //!
-import "./Style.css";
-import { Clock } from "./Widget";
-import { UD, WidClass, sampleUserData as Sample } from "./Types";
+import "./Style.scss";
+import { UD, WidClass } from "./Types";
+import SettingsUi from "./Components/widgets/settings";
 
 const root = createRoot(document.getElementById("root")!);
 const DefaultData: UD = {
@@ -53,15 +55,7 @@ const DefaultData: UD = {
 let Userdata: UD = JSON.parse(
   localStorage.getItem("Data") ?? JSON.stringify(DefaultData),
 );
-function SettingsUi(): React.ReactElement {
-  return (
-    <>
-      <button type="button" className="btn btn-light">
-        Light
-      </button>
-    </>
-  );
-}
+
 function GridUi(): React.ReactElement {
   //https://www.npmjs.com/package/react-grid-layout?activeTab=readme
 
@@ -82,7 +76,7 @@ function GridUi(): React.ReactElement {
   }
   return (
     <>
-      <div ref={containerRef}>
+      <div ref={containerRef} className="overflow-auto">
         {mounted && (
           <ReactGridLayout
             layout={layout}
@@ -99,7 +93,7 @@ function GridUi(): React.ReactElement {
               console.log("resize start", newItem)
             }
             width={width}
-            gridConfig={{ cols: 12, rowHeight: 150 }}
+            gridConfig={{ cols: 10, rowHeight: 10 }}
           >
             {layout.map((obj: LayoutItem) => {
               const widgdata = userdata.Widgets[obj.i]; /*shared Id*/
@@ -120,6 +114,9 @@ function GridUi(): React.ReactElement {
 function Ui() {
   return (
     <>
+      <Button variant="white" onClick={()=>{
+        <SettingsUi ></SettingsUi>
+      }}><Image src="../../public/Assets/SettingIcon.svg"></Image></Button>
       <SettingsUi />
       <GridUi />
     </>
