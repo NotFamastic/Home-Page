@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { LayoutItem } from "react-grid-layout";
 //!
-//!
-import { Clock } from "./Widget";
+import clock from "./Components/widgets/Widgets/Clock";
 
 export type CD /*clock Data*/ = {
   type: "clock";
@@ -44,7 +43,7 @@ export const WidClass: Record<
   W,
   new (id: string, data: any) => { html: React.ReactElement /*html*/ }
 > = {
-  clock: Clock,
+  clock: clock,
   //"Stocks":Stocks
   //"Alarm":Alarm
   //"News":News
