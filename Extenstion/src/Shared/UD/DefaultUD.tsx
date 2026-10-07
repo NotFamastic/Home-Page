@@ -5,6 +5,7 @@ const testdata: UD = {
     "clock-1": {
       type: "clock",
       data: {
+        override:true,
         Time: {
           enabled: true,
           hour: "numeric",

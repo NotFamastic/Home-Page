@@ -5,7 +5,15 @@ import {
   useContainerWidth,
   ReactGridLayout,
 } from "react-grid-layout";
-import type { LayoutItem, Layout } from "react-grid-layout";
+import type { LayoutItem, Layout, Compactor } from "react-grid-layout";
+import {
+  cloneLayout,
+  cloneLayoutItem,
+  getStatics,
+  bottom,
+  collides
+} from "react-grid-layout/core";
+
 import { useState, Dispatch, SetStateAction } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -22,6 +30,14 @@ import SettingsUi from "./Components/widgets/settings";
 import { getUserData, UpdateUD } from "./Shared/UD/UD";
 const root = createRoot(document.getElementById("root")!);
 
+const compactor: Compactor = {
+  type: null,
+  allowOverlap: false, 
+
+  compact(layout, cols) {
+    return layout;
+  },
+};
 function GridUi({
   userdata,
   setUserdata,
@@ -43,6 +59,8 @@ function GridUi({
             onLayoutChange={(Layout) => {
               setUserdata(UpdateUD("layout", Layout));
             }}
+            compactor={compactor}
+            autoSize
             width={width}
             gridConfig={{ cols: 10, rowHeight: 10 }}
           >

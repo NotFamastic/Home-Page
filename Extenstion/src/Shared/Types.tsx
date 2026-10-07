@@ -6,6 +6,7 @@ import quote from "../Components/widgets/Widgets/Quotes";
 export type S /*Settings types*/ = {};
 
 export type CD /*clock Data*/ = {
+  override:boolean;
   Time: {
     enabled: boolean;
     hour?: "numeric";
