@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Userdata } from "../../../Initial";
-import { CD } from "../../../Types";
-import { getNextAlarm, Widget } from "../../../Widget";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
-import Stack from "react-bootstrap/Stack";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { Container } from "react-bootstrap";
+import { getNextAlarm, Widget } from "../../../Shared/Widget";
+import {Button, Stack, Badge, ButtonGroup} from "react-bootstrap";
+import { getUserData } from "../../../Shared/UD/UD";
+import { CD, AD, UD, W, WidgList } from "../../../Shared/Types";
 
-function ClockUi(s: CD): React.ReactElement {
-  const Structure = s;
+function ClockUi(Structure: CD): React.ReactElement {
   const [t /*time*/, newt] = useState(new Date());
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState<boolean>(false);
   const [sec, setSec] = useState(0);
-  const [Alarm, newAlarm] = useState(getNextAlarm(Userdata));
+  const [Alarm, newAlarm] = useState(getNextAlarm(getUserData()));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 100);
@@ -30,7 +25,7 @@ function ClockUi(s: CD): React.ReactElement {
     return () => clearInterval(id);
   }, [running]);
   useEffect(() => {
-    const id = setInterval(() => newAlarm(getNextAlarm(Userdata)), 30000);
+    const id = setInterval(() => newAlarm(getNextAlarm(getUserData())), 30000);
     return () => clearInterval(id);
   }, []);
   const days = Alarm
@@ -114,13 +109,13 @@ function ClockUi(s: CD): React.ReactElement {
       )}
       {!running && (
         <Button
-          variant="success"
+          variant={sec?"warning":"success"}
           size="lg"
           onClick={function () {
             setRunning(!running);
           }}
         >
-          {sec ? `${sec} Second` : "Start"}
+          {sec ? `Resume ${sec}.0`:"Start"}
         </Button>
       )}
     </Stack>
@@ -129,6 +124,9 @@ function ClockUi(s: CD): React.ReactElement {
 export default class Clock extends Widget {
   //?pauseFunc?: () => void;
   constructor(id: string, s: CD) {
-    super(id, "clock", s, <ClockUi {...s} />);
+    super(id, "clock", <ClockUi {...s} />);
   }
+    Update(s: CD):void {
+         this.html = <ClockUi {...s} />
+     }
 }

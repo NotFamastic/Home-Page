@@ -6,7 +6,7 @@ import {
   ReactGridLayout,
 } from "react-grid-layout";
 import type { LayoutItem, Layout } from "react-grid-layout";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
@@ -14,66 +14,26 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import Image from 'react-bootstrap/Image';
 //!
-export { Userdata };
 //!
 import "./Style.scss";
-import { UD, WidClass } from "./Types";
+import { UD, WidClass } from "./Shared/Types";
 import SettingsUi from "./Components/widgets/settings";
-
+import { getUserData, UpdateUD } from "./Shared/UD/UD";
 const root = createRoot(document.getElementById("root")!);
-const DefaultData: UD = {
-  Widgets: {
-    "clock-1": {
-      type: "clock",
-      Time: {
-        enabled: true,
-        hour: "numeric",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      },
-      Date: {
-        enabled: true,
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      },
-    },
-  },
-  SharedData: {
-    layout: [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }],
-    alarm: [
-      { name: "Wake up", time: 1735700400 * 1000, text: "Morning alarm" },
-    ],
-  },
-  Settings: {},
-};
 
-let Userdata: UD = JSON.parse(
-  localStorage.getItem("Data") ?? JSON.stringify(DefaultData),
-);
-
-function GridUi(): React.ReactElement {
+function GridUi({
+  userdata,
+  setUserdata,
+}: {
+  userdata: UD;
+  setUserdata: Dispatch<SetStateAction<UD>>;
+}): React.ReactElement {
   //https://www.npmjs.com/package/react-grid-layout?activeTab=readme
 
   const { width, containerRef, mounted } = useContainerWidth();
-  const [userdata, setUserdata] = useState(Userdata);
   const layout = userdata.SharedData.layout;
-  function onLayoutChange(newLayout: Layout) {
-    const updated = {
-      Widgets: userdata.Widgets,
-      Settings: userdata.Settings,
-      SharedData: {
-        layout: [...newLayout],
-        alarm: userdata.SharedData.alarm,
-      },
-    };
-    setUserdata(updated);
-    localStorage.setItem("Data", JSON.stringify(updated));
-  }
+
   return (
     <>
       <div ref={containerRef} className="overflow-auto">
@@ -81,29 +41,22 @@ function GridUi(): React.ReactElement {
           <ReactGridLayout
             layout={layout}
             onLayoutChange={(Layout) => {
-              onLayoutChange(Layout);
+              setUserdata(UpdateUD("layout", Layout));
             }}
-            onDragStart={(layout, oldItem, newItem, placeholder, e, element) =>
-              console.log("drag start", newItem)
-            }
-            onDragStop={(layout, oldItem, newItem) =>
-              console.log("drag stop", newItem)
-            }
-            onResizeStart={(layout, oldItem, newItem) =>
-              console.log("resize start", newItem)
-            }
             width={width}
             gridConfig={{ cols: 10, rowHeight: 10 }}
           >
-            {layout.map((obj: LayoutItem) => {
-              const widgdata = userdata.Widgets[obj.i]; /*shared Id*/
-              const Class =
-                WidClass[widgdata.type]; /*gets class using widg type(string)*/
+            {layout.map((This: LayoutItem) => {
+              /*LayoutItem 
+              [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }]
+               */
+              const widgdata = userdata.Widgets[This.i]; /*uses shared Id*/
+              const Class = WidClass[widgdata.type]; //!gets class using widg type(string)
 
               if (!Class) return;
 
-              const ThisWidg = new Class(obj.i, widgdata);
-              return <div key={obj.i}>{ThisWidg.html}</div>;
+              const ThisWidg = new Class(This.i, widgdata.data);
+              return <div key={This.i}>{ThisWidg.html}</div>;
             })}
           </ReactGridLayout>
         )}
@@ -112,13 +65,12 @@ function GridUi(): React.ReactElement {
   );
 }
 function Ui() {
+  const [userdata, setUserdata] = useState(getUserData());
+
   return (
     <>
-      <Button variant="white" onClick={()=>{
-        <SettingsUi ></SettingsUi>
-      }}><Image src="../../public/Assets/SettingIcon.svg"></Image></Button>
-      <SettingsUi />
-      <GridUi />
+      <SettingsUi userdata={userdata} />
+      <GridUi userdata={userdata} setUserdata={setUserdata} />
     </>
   );
 }
