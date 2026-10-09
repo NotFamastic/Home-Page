@@ -1,0 +1,6 @@
+!https://react-bootstrap.netlify.app/docs
+!https://www.npmjs.com/package/react-grid-layout?activeTab=readme#api-reference
+!https://getbootstrap.com/docs/6.0/components/card/
+*https://www.typescriptlang.org/docs/handbook/2/functions.html#parameter-destructuring
+*https://youtu.be/CgkZ7MvWUAA
+todo https://www.chromium.org/developers/design-documents/create-amazing-password-forms/

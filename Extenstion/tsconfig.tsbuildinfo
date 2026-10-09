@@ -1,1 +1,1 @@
-{"root":["./src/initial.tsx","./src/types.tsx","./src/widget.tsx"],"version":"5.6.3"}
+{"root":["./src/initial.tsx","./src/components/widgets/settings.tsx","./src/components/widgets/widgets/clock.tsx","./src/components/widgets/widgets/quotes.tsx","./src/shared/types.tsx","./src/shared/widget.tsx","./src/shared/ud/defaultud.tsx","./src/shared/ud/ud.tsx"],"version":"5.6.3"}

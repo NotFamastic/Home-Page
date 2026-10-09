@@ -1,12 +1,32 @@
 import type { LayoutItem } from "react-grid-layout";
 //!
-import clock from "../Components/widgets/Widgets/Clock";
-import quote from "../Components/widgets/Widgets/Quotes";
+import clock from "../Components/Widgets/Clock";
+import quote from "../Components/Widgets/Quotes";
+import stopwatch from "../Components/Widgets/Stopwatch";
+import { BaseWidg } from "./Widget";
 //!
-export type S /*Settings types*/ = {};
+export type themes =
+  | "Default"
+  | "Brite"
+  | "Cyborg"
+  | "Simplex"
+  | "Sketchy"
+  | "Vapor"
+  | "Zephyr";
+export type SettD /*Settings Data*/ = {
+  theme: themes;
+};
 
-export type CD /*clock Data*/ = {
-  override:boolean;
+export type WidgDTI /*Data Type Index*/ = {
+  Clock: ClockD | undefined;
+  Quote: null;
+  StopWatch: null;
+};
+
+export type WidgT /*widget types */ = keyof WidgDTI;
+
+export type ClockD /*clock Data*/ = {
+  override: boolean;
   Time: {
     enabled: boolean;
     hour?: "numeric";
@@ -22,53 +42,31 @@ export type CD /*clock Data*/ = {
     year?: "numeric";
   };
 };
-export type AD /*Alarm Data*/ = {
+
+export type AlarmD /*Alarm Data*/ = {
   name: string;
   time: number;
   text?: string;
 };
-export type WidgList = {
-  clock: CD;
-  quote: null;
-};
-export type W /*widget types*/ = keyof WidgList;
 
-export type UD /*User Data*/ = {
+export type UserD /*User Data*/ = {
   Widgets: {
     [Id: string]: {
-      type: keyof WidgList;
-      data: WidgList[keyof WidgList];
-    };
+      [This /*Type string*/ in WidgT]: {
+        type: This;
+        data: WidgDTI[This];
+      };
+    }[WidgT];
   };
   SharedData: {
     layout: LayoutItem[];
-    alarm: AD[] | null;
+    alarm: AlarmD[] | null;
   };
-  Settings: S;
+  Settings: SettD;
 };
 
-export const WidClass: Record<
-  keyof WidgList,
-  new (id: string, data: any) => { html: React.ReactElement /*html*/ }
-> = {
-  clock: clock,
-  quote: quote,
-};
-
-/*type Widget = {
-  [K in keyof WidgList]: {
-    type: K;
-    data: WidgList[K];
-  };
-}[keyof WidgList];
-{
-  Clock: {
-    type: "Clock";
-    data: CD;
-  };
-
-  Settings: {
-    type: "Settings";
-    data: S;
-  };
-}["Clock" | "Settings"]*/
+export const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
+  Clock: clock,
+  Quote: quote,
+  StopWatch: stopwatch,
+}; /*Widg Class Index*/

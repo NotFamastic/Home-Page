@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 //!
-import { CD, AD, UD, W, WidgList } from "./Types";
+import { AlarmD, UserD, WidgT, WidgDTI } from "./Types";
 
-export function getNextAlarm(data: UD) {
-  const alarmlist: AD[] | null = data.SharedData.alarm;
+export function getNextAlarm(data: UserD) {
+  const alarmlist: AlarmD[] | null = data.SharedData.alarm;
 
   return alarmlist
     ? alarmlist.reduce(function (PrevAlarm, NextAlarm) {
@@ -12,16 +12,14 @@ export function getNextAlarm(data: UD) {
     : undefined;
 }
 
-export abstract class Widget {
+export abstract class BaseWidg {
   id: string;
-  type: W;
-  html: React.ReactElement;
-  constructor(id: string, type: W, html: React.ReactElement) {
+  type: WidgT;
+  constructor(id: string, type: WidgT) {
     this.id = id;
     this.type = type;
-    this.html = html;
   }
-  abstract Update(data: WidgList[keyof WidgList]):void;
+  abstract Render(data: WidgDTI[WidgT]): React.ReactElement;
 }
 /*{
   id: 123,

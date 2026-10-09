@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { getNextAlarm, Widget } from "../../../Shared/Widget";
-import {Button, Stack, Badge, ButtonGroup} from "react-bootstrap";
-import { getUserData } from "../../../Shared/UD/UD";
-import { CD, AD, UD, W, WidgList } from "../../../Shared/Types";
+import { getNextAlarm, BaseWidg } from "../../Shared/Widget";
+import { Button, Stack, Badge, ButtonGroup } from "react-bootstrap";
+import { getUserData } from "../../Shared/UserData/Functions";
+import { ClockD, WidgDTI } from "../../Shared/Types";
 
-function ClockUi(Structure: CD): React.ReactElement {
+const Default: ClockD = {
+  override: true,
+  Time: {
+    enabled: true,
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  },
+  Date: {
+    enabled: true,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  },
+};
+function ClockUi(Structure: ClockD): React.ReactElement {
   const [t /*time*/, newt] = useState(new Date());
-  const [running, setRunning] = useState<boolean>(false);
-  const [sec, setSec] = useState(0);
   const [Alarm, newAlarm] = useState(getNextAlarm(getUserData()));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 100);
     return () => clearInterval(id);
   }, []);
-  useEffect(() => {
-    if (!running) {
-      return;
-    }
-    const id = setInterval(
-      () => setSec((sec) => Math.round((sec + 0.1) * 10) / 10),
-      100,
-    );
-    return () => clearInterval(id);
-  }, [running]);
   useEffect(() => {
     const id = setInterval(() => newAlarm(getNextAlarm(getUserData())), 30000);
     return () => clearInterval(id);
@@ -83,50 +88,16 @@ function ClockUi(Structure: CD): React.ReactElement {
           </span>
         </h3>
       )}
-      {running && (
-        <ButtonGroup>
-          <Button
-            variant="warning"
-            onClick={function () {
-              setRunning(!running);
-            }}
-          >
-            Pause
-          </Button>
-          <Button variant="secondary" style={{ width: "5vw" }} disabled>
-            {sec}
-          </Button>
-          <Button
-            variant="danger"
-            onClick={function () {
-              setRunning(!running);
-              setSec(0);
-            }}
-          >
-            Reset
-          </Button>
-        </ButtonGroup>
-      )}
-      {!running && (
-        <Button
-          variant={sec?"warning":"success"}
-          size="lg"
-          onClick={function () {
-            setRunning(!running);
-          }}
-        >
-          {sec ? `Resume ${sec}.0`:"Start"}
-        </Button>
-      )}
     </Stack>
   );
 }
-export default class Clock extends Widget {
+export default class clock extends BaseWidg {
   //?pauseFunc?: () => void;
-  constructor(id: string, s: CD) {
-    super(id, "clock", <ClockUi {...s} />);
+  constructor(id: string) {
+    super(id, "Clock");
   }
-    Update(s: CD):void {
-         this.html = <ClockUi {...s} />
-     }
+  Render(s: WidgDTI["Clock"]): React.ReactElement {
+    s = s ? s : Default;
+    return <ClockUi {...s} />;
+  }
 }
