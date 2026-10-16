@@ -1,8 +1,21 @@
+//!
 import React, { useRef, useEffect, useState } from "react";
-import { Card, Button, ButtonGroup } from "react-bootstrap";
-
-import { BaseWidg } from "../../Shared/Widget";
-import { WidgDTI } from "../../Shared/Types";
+//!
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+} from "@/components/ui/button-group";
+import { BaseWidg } from "../../shared/Widget";
+import { WidgDTI } from "../../shared/Types";
 
 function StopwatchUI({ id }: { id: string }): React.ReactElement {
   const [Isrunning, setRunning] = useState(false);
@@ -30,31 +43,32 @@ function StopwatchUI({ id }: { id: string }): React.ReactElement {
     let h = Math.floor(ElapsedTime / (1000 * 60 * 60));
     let m = Math.floor((ElapsedTime / (1000 * 60)) % 60);
     let s = Math.floor((ElapsedTime / 1000) % 60);
-    return `${h}:${m}:${s}`;
+    let ms = Math.floor(ElapsedTime % 60);
+    return h ? `${h}:${m}:${s}` : m ? `${m}:${s}` : `${s}.${ms}`;
   }
 
   return (
-    <Card>
-      <Card.Body>
+    <Card className="h-full w-full">
+      <CardContent className="flex items-center justify-center">
         {Isrunning ? (
-          <ButtonGroup>
+          <ButtonGroup className="w-full">
             <Button
-              variant="warning"
-              onClick={() => {
-                setRunning(false);
-              }}
+              className="min-w-0 flex-1"
+              variant="default"
+              onClick={() => setRunning(false)}
             >
               Pause
             </Button>
 
-            <Button variant="secondary" disabled>
+            <ButtonGroupText className="min-w-0 flex-1 justify-center tabular-nums">
               {FormatTime()}
-            </Button>
+            </ButtonGroupText>
 
             <Button
-              variant="danger"
+              className="min-w-0 flex-1"
+              variant="destructive"
               onClick={() => {
-                setRunning(false)
+                setRunning(false);
                 setElapsedTime(0);
               }}
             >
@@ -63,14 +77,13 @@ function StopwatchUI({ id }: { id: string }): React.ReactElement {
           </ButtonGroup>
         ) : (
           <Button
-            variant={ElapsedTime > 0 ? "warning" : "success"}
-            size="lg"
+            variant={ElapsedTime > 0 ? "default" : "outline"}
             onClick={Start}
           >
             {ElapsedTime > 0 ? `Resume ${FormatTime()}` : "Start"}
           </Button>
         )}
-      </Card.Body>
+      </CardContent>
     </Card>
   );
 }

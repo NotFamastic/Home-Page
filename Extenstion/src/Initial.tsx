@@ -1,38 +1,36 @@
+//!
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import { useStore } from "zustand";
+//!
 import { useContainerWidth, ReactGridLayout } from "react-grid-layout";
 import type { LayoutItem, Layout } from "react-grid-layout";
 import { noCompactor } from "react-grid-layout/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import { calcGridItemWHPx } from "react-grid-layout/core";
 //!
-import React, { useState, Dispatch, SetStateAction,useEffect } from "react";
-import { createRoot } from "react-dom/client";
+import { UserD, WidgCI, type WidgT } from "./shared/Types";
+import SettingsUi from "./components/settings";
+import { UserData } from "./shared/userdata/Functions";
 //!
-import { Button, Image } from "react-bootstrap";
-//!
-import { UserD, WidgCI } from "./Shared/Types";
-import SettingsUi from "./Components/settings";
-import { getUserData, UpdateUserD } from "./Shared/UserData/Functions";
+import "./Style.css";
 //*
-const root = createRoot(document.getElementById("root")!);
-function GridUi({
-  userdata,
-  setUserdata,
-}: {
-  userdata: UserD;
-  setUserdata: Dispatch<SetStateAction<UserD>>;
-}): React.ReactElement {
+function GridUi(/*{}: {}*/): React.ReactElement {
   const { width, containerRef, mounted } = useContainerWidth();
-  const layout = userdata.SharedData.layout;
-
+  const layout = useStore(UserData, (UD) => UD.SharedData.layout);
+  const widgets: UserD["Widgets"] = useStore(UserData, (UD) => UD.Widgets);
   return (
     <>
       <div ref={containerRef} className="overflow-auto">
         {mounted && (
           <ReactGridLayout
             layout={layout}
-            onLayoutChange={(Layout) => {
-              setUserdata(UpdateUserD("layout", Layout));
-            }}
+            onLayoutChange={(l) =>
+              UserData.setState((UD) => ({
+                SharedData: { ...UD.SharedData, layout: [...l] },
+              }))
+            }
             compactor={{
               ...noCompactor,
               allowOverlap: false,
@@ -40,22 +38,20 @@ function GridUi({
             }}
             autoSize
             width={width}
-            gridConfig={{ cols: 10, rowHeight: 10 }}
+            gridConfig={{ cols: 10, rowHeight: 50 }}
           >
             {layout.map((This: LayoutItem) => {
-              /*LayoutItem 
-              [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }]
-               */
+              //LayoutItem: [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }]
 
-              const widget = userdata.Widgets[This.i]; /*uses shared Id*/
-              const Class = WidgCI[widget.type]; //!gets class using widg type(string)
-
-              if (!Class) {
-                console.log(widget, Class);
-              }
-
+              const widget = widgets[This.i];
+              const Class = WidgCI[widget.type];
               const ThisWidg = new Class(This.i);
-              return <div key={This.i}>{ThisWidg.Render(widget.data)}</div>;
+
+              return (
+                <div className="overflow-hidden" key={This.i}>
+                  {ThisWidg.Render(widget.data)}
+                </div>
+              );
             })}
           </ReactGridLayout>
         )}
@@ -63,35 +59,23 @@ function GridUi({
     </>
   );
 }
-import { ThemeList } from "./Shared/Variables";
-function Ui() {
-  const [userdata, setUserdata] = useState(getUserData());
-  const [showSett, changeSett] = useState(false);
-  useEffect(() => {
-    const link = document.getElementById("theme") as HTMLLinkElement;
 
-    link.href = ThemeList[userdata.Settings.theme];
-  }, [userdata.Settings.theme]);
+function App() {
   return (
     <>
-      <Button
-        variant="white"
-        onClick={() => {
-          changeSett((s) => !s);
-        }}
-      >
-        <Image src="/Assets/SettingIcon.svg"></Image>
-      </Button>
-      {showSett && (
-        <SettingsUi
-          SettData={userdata.Settings}
-          setUserdata={setUserdata}
-          Close={() => changeSett(false)}
-        />
-      )}
-      <GridUi userdata={userdata} setUserdata={setUserdata} />
+      <SettingsUi />
+      <GridUi />
     </>
   );
 }
+const root = createRoot(document.getElementById("root")!);
 
-root.render(<Ui />);
+function apply(s: UserD) {
+  const root = document.documentElement;
+  root.dataset.theme = s.Settings.theme ?? "default";
+  root.classList.toggle("dark", s.Settings.dark ?? false);
+}
+
+apply(UserData.getState());
+UserData.subscribe(apply); //?
+root.render(<App />);

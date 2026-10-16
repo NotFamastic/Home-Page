@@ -1,15 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-/*, server: {
-    proxy: {
-      "/api/quote": {
-        target: "https://zenquotes.io",
-        changeOrigin: true,
-        rewrite: () => "/api/random",
-      },
-    }},*/
+import tailwindcss from "@tailwindcss/vite";
+import path from "node:path";
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
+  resolve:{alias:{"@":path.resolve(import.meta.dirname,"./src")}},
   base: "./",
   build: {
     outDir: "../dist",

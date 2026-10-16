@@ -7,7 +7,10 @@
     "strict": true,
     "types": ["vite/client"],
     "lib": ["DOM", "ES2020"],
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "src/**/*.ts",

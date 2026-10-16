@@ -1,8 +1,14 @@
+//!
 import React, { useEffect, useState } from "react";
-import { getNextAlarm, BaseWidg } from "../../Shared/Widget";
-import { Button, Stack, Badge, ButtonGroup } from "react-bootstrap";
-import { getUserData } from "../../Shared/UserData/Functions";
-import { ClockD, WidgDTI } from "../../Shared/Types";
+import { useStore } from "zustand";
+//!
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+//!
+import { getNextAlarm, BaseWidg } from "../../shared/Widget";
+
+import { UserData } from "../../shared/userdata/Functions";
+import { ClockD, WidgDTI } from "../../shared/Types";
 
 const Default: ClockD = {
   override: true,
@@ -23,14 +29,14 @@ const Default: ClockD = {
 };
 function ClockUi(Structure: ClockD): React.ReactElement {
   const [t /*time*/, newt] = useState(new Date());
-  const [Alarm, newAlarm] = useState(getNextAlarm(getUserData()));
+  const Alarm = getNextAlarm(useStore(UserData, (UD) => UD.SharedData.alarm));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 100);
     return () => clearInterval(id);
   }, []);
   useEffect(() => {
-    const id = setInterval(() => newAlarm(getNextAlarm(getUserData())), 30000);
+    const id = setInterval(() => Alarm, 30000);
     return () => clearInterval(id);
   }, []);
   const days = Alarm
@@ -49,7 +55,7 @@ function ClockUi(Structure: ClockD): React.ReactElement {
       )
     : 0;
   return (
-    <Stack>
+    <>
       {Structure.Time.enabled && (
         <h1>
           {t.toLocaleTimeString([], {
@@ -73,7 +79,7 @@ function ClockUi(Structure: ClockD): React.ReactElement {
 
       {Alarm && (
         <h3>
-          {Alarm.name} at{" "}
+          {Alarm.name} at
           <Badge>
             {new Date(Alarm.time).toLocaleTimeString([], {
               hour: "2-digit",
@@ -88,7 +94,7 @@ function ClockUi(Structure: ClockD): React.ReactElement {
           </span>
         </h3>
       )}
-    </Stack>
+    </>
   );
 }
 export default class clock extends BaseWidg {

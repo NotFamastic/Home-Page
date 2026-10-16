@@ -27,13 +27,13 @@ const testdata: UserD = {
   },
   SharedData: {
     layout: [
-      { i: "clock", x: 0, y: 7, w: 5, h: 10, moved: true, static: false },
-      { i: "quote", x: 5, y: 13, w: 5, h: 12, moved: true, static: false },
-      { i: "stopwatch", x: 6, y: 3, w: 4, h: 5, moved: true, static: false },
+      { i: "clock", x: 1, y: 4, w: 5, h: 3, moved: false, static: false },
+      { i: "quote", x: 2, y: 0, w: 5, h: 4, moved: true, static: false },
+      { i: "stopwatch", x: 7, y: 4, w: 2, h: 2, moved: true, static: false },
     ],
     alarm: [{ name: "Wake up", time: 1735700400000, text: "Morning alarm" }],
   },
-  Settings: { theme: "Sketchy" },
+  Settings: { theme: "default", dark: true },
 };
 const DefaultData: UserD = {
   Widgets: {},
@@ -41,7 +41,7 @@ const DefaultData: UserD = {
     layout: [],
     alarm: null,
   },
-  Settings: { theme: "Default" },
+  Settings: { theme: "default", dark: false },
 };
 export default testdata;
 //!

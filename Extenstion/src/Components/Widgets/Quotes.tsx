@@ -1,9 +1,19 @@
+//!
 import React, { useEffect, useState } from "react";
-import { Card, Placeholder } from "react-bootstrap";
+//!
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+//!
+import { BaseWidg } from "../../shared/Widget";
+import { WidgDTI } from "../../shared/Types";
 
-import { BaseWidg } from "../../Shared/Widget";
-import { WidgDTI } from "../../Shared/Types";
-//!https://github.com/public-apis/public-apis
 function QuoteUi() {
   type Quote = {
     quote: string;
@@ -35,31 +45,37 @@ function QuoteUi() {
   }, []);
   if (!quote) {
     return (
-      <Card>
-        <Card.Header>Quote</Card.Header>
-        <Card.Body>
-          <Placeholder as={Card.Text} animation="glow">
-            <Placeholder xs={12} />
-            <Placeholder xs={5} />
-          </Placeholder>
-        </Card.Body>
+      <Card className="h-full">
+        <CardHeader className="h-full">
+          <CardTitle>Quote</CardTitle>
+        </CardHeader>
+        <CardContent className="h-full">
+          <Skeleton className="h-full"></Skeleton>
+          <Skeleton className="h-full"></Skeleton>
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <Card.Header>Quote</Card.Header>
-      <Card.Body>
+    <Card className="h-full">
+      <CardHeader className="h-full">
+        <CardTitle className="h-full">Quote</CardTitle>
+      </CardHeader>
+      <CardContent className="h-full">
         <figure>
-          <blockquote className="blockquote">
-            <p><b>{quote.quote}</b></p>
+          <blockquote className="">
+            <p>
+              <b>{quote.quote}</b>
+            </p>
           </blockquote>
-          <figcaption className="blockquote-footer">
-             {quote.author} <cite title="Source Title"> From dummyjson.com</cite>
-          </figcaption>
         </figure>
-      </Card.Body>
+      </CardContent>
+      <CardFooter>
+        <figcaption className="blockquote-footer">
+          {quote.author} <cite title="Source Title"> From dummyjson.com</cite>
+        </figcaption>
+      </CardFooter>
     </Card>
   );
 }

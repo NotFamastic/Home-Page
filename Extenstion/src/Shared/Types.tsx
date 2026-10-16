@@ -1,20 +1,16 @@
 import type { LayoutItem } from "react-grid-layout";
 //!
-import clock from "../Components/Widgets/Clock";
-import quote from "../Components/Widgets/Quotes";
-import stopwatch from "../Components/Widgets/Stopwatch";
+import clock from "../components/widgets/Clock";
+import quote from "../components/widgets/Quotes";
+import stopwatch from "../components/widgets/Stopwatch";
 import { BaseWidg } from "./Widget";
 //!
-export type themes =
-  | "Default"
-  | "Brite"
-  | "Cyborg"
-  | "Simplex"
-  | "Sketchy"
-  | "Vapor"
-  | "Zephyr";
+
+export type themes = "default" | "cyberpunk" | "twitter" | "rose" | "valorant";
+
 export type SettD /*Settings Data*/ = {
   theme: themes;
+  dark:boolean
 };
 
 export type WidgDTI /*Data Type Index*/ = {

@@ -1,6 +1,13 @@
-!https://react-bootstrap.netlify.app/docs
 !https://www.npmjs.com/package/react-grid-layout?activeTab=readme#api-reference
-!https://getbootstrap.com/docs/6.0/components/card/
+!https://icons.getbootstrap.com/ 
+!https://github.com/public-apis/public-apis 
+!https://www.shadcn.io/theme/cyberpunk
+todo https://tailwindcss.com/docs/installation/using-vite
+todo https://app.unpkg.com/react-grid-layout@2.2.2/files/dist
+
 *https://www.typescriptlang.org/docs/handbook/2/functions.html#parameter-destructuring
 *https://youtu.be/CgkZ7MvWUAA
-todo https://www.chromium.org/developers/design-documents/create-amazing-password-forms/
+*https://www.chromium.org/developers/design-documents/create-amazing-password-forms/
+
+?https://getbootstrap.com/docs/6.0/components/card/
+?https://react-bootstrap.netlify.app/docs

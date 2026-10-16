@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 //!
 import { AlarmD, UserD, WidgT, WidgDTI } from "./Types";
 
-export function getNextAlarm(data: UserD) {
-  const alarmlist: AlarmD[] | null = data.SharedData.alarm;
-
+export function getNextAlarm(alarmlist: AlarmD[] | null) {
   return alarmlist
     ? alarmlist.reduce(function (PrevAlarm, NextAlarm) {
         return NextAlarm.time > PrevAlarm.time ? PrevAlarm : NextAlarm;
