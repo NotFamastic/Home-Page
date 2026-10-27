@@ -8,14 +8,28 @@ import type { LayoutItem, Layout } from "react-grid-layout";
 import { noCompactor } from "react-grid-layout/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { calcGridItemWHPx } from "react-grid-layout/core";
 //!
-import { UserD, WidgCI, type WidgT } from "./shared/Types";
 import SettingsUi from "./components/settings";
 import { UserData } from "./shared/userdata/Functions";
 //!
 import "./Style.css";
-//*
+//*type
+import type { UserD } from "./shared/userdata/Functions";
+//
+import clock from "@/components/widgets/Clock";
+import quote from "@/components/widgets/Quotes";
+import stopwatch from "@/components/widgets/Stopwatch";
+import searchbar from "@/components/widgets/SearchBar";
+import { WidgT,BaseWidg } from "./shared/Widget";
+ const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
+  Clock: clock,
+  Quote: quote,
+  StopWatch: stopwatch,
+  searchbar: searchbar,
+};
+//
+
+//!
 function GridUi(/*{}: {}*/): React.ReactElement {
   const { width, containerRef, mounted } = useContainerWidth();
   const layout = useStore(UserData, (UD) => UD.SharedData.layout);
@@ -38,7 +52,7 @@ function GridUi(/*{}: {}*/): React.ReactElement {
             }}
             autoSize
             width={width}
-            gridConfig={{ cols: 10, rowHeight: 50 }}
+            gridConfig={{ cols: 20, rowHeight: 50 }}
           >
             {layout.map((This: LayoutItem) => {
               //LayoutItem: [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }]
@@ -70,12 +84,18 @@ function App() {
 }
 const root = createRoot(document.getElementById("root")!);
 
-function apply(s: UserD) {
+function apply(s: UserD["Settings"]) {
   const root = document.documentElement;
-  root.dataset.theme = s.Settings.theme ?? "default";
-  root.classList.toggle("dark", s.Settings.dark ?? false);
+  root.dataset.theme = s.theme ?? "default";
+  root.classList.toggle("dark", s.dark ?? false);
 }
-
-apply(UserData.getState());
-UserData.subscribe(apply); //?
+apply(UserData.getState().Settings);
+UserData.subscribe((UD, Old) => {
+  if (
+    UD.Settings.theme !== Old.Settings.theme ||
+    UD.Settings.dark !== Old.Settings.dark
+  ) {
+    apply(UD.Settings);
+  }
+});
 root.render(<App />);

@@ -1,11 +1,10 @@
-import { UserD } from "../Types";
+import { UserD } from "./Functions";
 //!
 const testdata: UserD = {
   Widgets: {
     clock: {
       type: "Clock",
       data: {
-        override: true,
         Time: {
           enabled: true,
           hour: "numeric",
@@ -24,24 +23,19 @@ const testdata: UserD = {
     },
     quote: { type: "Quote", data: null },
     stopwatch: { type: "StopWatch", data: null },
+    searchbar: { type: "searchbar", data: null },
   },
   SharedData: {
     layout: [
-      { i: "clock", x: 1, y: 4, w: 5, h: 3, moved: false, static: false },
-      { i: "quote", x: 2, y: 0, w: 5, h: 4, moved: true, static: false },
-      { i: "stopwatch", x: 7, y: 4, w: 2, h: 2, moved: true, static: false },
+      { i: "clock", x: 6, y: 1, w: 2, h: 2, moved: true, static: false },
+      { i: "quote", x: 1, y: 2, w: 5, h: 3, moved: true, static: false },
+      { i: "stopwatch", x: 9, y: 2, w: 2, h: 2, moved: true, static: false },
+      { i: "searchbar", x: 12, y: 5, w: 7, h: 1, moved: true, static: false },
     ],
     alarm: [{ name: "Wake up", time: 1735700400000, text: "Morning alarm" }],
   },
-  Settings: { theme: "default", dark: true },
+  Settings: { theme: "cyberpunk", dark: true, search: "b" },
 };
-const DefaultData: UserD = {
-  Widgets: {},
-  SharedData: {
-    layout: [],
-    alarm: null,
-  },
-  Settings: { theme: "default", dark: false },
-};
+const DefaultData = {};
 export default testdata;
 //!

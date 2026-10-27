@@ -3,15 +3,29 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
 //!
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 //!
 import { getNextAlarm, BaseWidg } from "../../shared/Widget";
-
+//*
 import { UserData } from "../../shared/userdata/Functions";
-import { ClockD, WidgDTI } from "../../shared/Types";
-
+import { WidgDTI } from "../../shared/Widget";
+export type ClockD = {
+  Time: {
+    enabled: boolean;
+    hour?: "numeric";
+    minute?: "2-digit";
+    second?: "2-digit";
+    hour12?: boolean;
+  };
+  Date: {
+    enabled: boolean;
+    weekday?: "long";
+    day?: "numeric";
+    month?: "long" | "short" | "numeric";
+    year?: "numeric";
+  };
+};
+//!
 const Default: ClockD = {
-  override: true,
   Time: {
     enabled: true,
     hour: "numeric",
@@ -27,7 +41,8 @@ const Default: ClockD = {
     year: "numeric",
   },
 };
-function ClockUi(Structure: ClockD): React.ReactElement {
+//!
+function Ui(Structure: ClockD): React.ReactElement {
   const [t /*time*/, newt] = useState(new Date());
   const Alarm = getNextAlarm(useStore(UserData, (UD) => UD.SharedData.alarm));
 
@@ -97,13 +112,13 @@ function ClockUi(Structure: ClockD): React.ReactElement {
     </>
   );
 }
+//!
 export default class clock extends BaseWidg {
-  //?pauseFunc?: () => void;
   constructor(id: string) {
     super(id, "Clock");
   }
   Render(s: WidgDTI["Clock"]): React.ReactElement {
     s = s ? s : Default;
-    return <ClockUi {...s} />;
+    return <Ui {...s} />;
   }
 }

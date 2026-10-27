@@ -14,10 +14,11 @@ import {
   ButtonGroupSeparator,
   ButtonGroupText,
 } from "@/components/ui/button-group";
+//*
 import { BaseWidg } from "../../shared/Widget";
-import { WidgDTI } from "../../shared/Types";
-
-function StopwatchUI({ id }: { id: string }): React.ReactElement {
+import { WidgDTI } from "../../shared/Widget";
+//!
+function Ui(): React.ReactElement {
   const [Isrunning, setRunning] = useState(false);
   const [ElapsedTime, setElapsedTime] = useState(0); //Total Actual Time
 
@@ -36,7 +37,7 @@ function StopwatchUI({ id }: { id: string }): React.ReactElement {
 
   function Start() {
     setRunning(true);
-    startTimeRef.current = Date.now() - ElapsedTime; //?
+    startTimeRef.current = Date.now() - ElapsedTime; 
   }
 
   function FormatTime() {
@@ -60,7 +61,7 @@ function StopwatchUI({ id }: { id: string }): React.ReactElement {
               Pause
             </Button>
 
-            <ButtonGroupText className="min-w-0 flex-1 justify-center tabular-nums">
+            <ButtonGroupText className="min-w-0 flex-1 justify-center">
               {FormatTime()}
             </ButtonGroupText>
 
@@ -87,13 +88,13 @@ function StopwatchUI({ id }: { id: string }): React.ReactElement {
     </Card>
   );
 }
-
+//!
 export default class stopwatch extends BaseWidg {
   constructor(id: string) {
     super(id, "StopWatch");
   }
 
   Render(_: WidgDTI["StopWatch"]): React.ReactElement {
-    return <StopwatchUI id={this.id} />;
+    return <Ui />;
   }
 }

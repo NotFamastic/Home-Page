@@ -2,6 +2,7 @@
 !https://icons.getbootstrap.com/ 
 !https://github.com/public-apis/public-apis 
 !https://www.shadcn.io/theme/cyberpunk
+!https://base-ui.com/react/components/dialog#api-reference
 todo https://tailwindcss.com/docs/installation/using-vite
 todo https://app.unpkg.com/react-grid-layout@2.2.2/files/dist
 

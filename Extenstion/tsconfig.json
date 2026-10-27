@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "types": ["vite/client"],
+    "types": ["vite/client","chrome"],
     "lib": ["DOM", "ES2020"],
     "noEmit": true,
     "paths": {

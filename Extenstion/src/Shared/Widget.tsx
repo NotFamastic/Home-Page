@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from "react";
-//!
-import { AlarmD, UserD, WidgT, WidgDTI } from "./Types";
+//*
+import { ClockD } from "@/components/widgets/Clock";
 
-export function getNextAlarm(alarmlist: AlarmD[] | null) {
+export type AlarmD = {
+  name: string;
+  time: number;
+  text?: string;
+};
+
+export type WidgDTI /*Data Type Index*/ = {
+  Clock: ClockD | undefined;
+  Quote: null;
+  StopWatch: null;
+  searchbar: null;
+};
+
+export type WidgT = keyof WidgDTI;
+
+export function getNextAlarm(alarmlist: AlarmD[] | null): AlarmD | undefined {
   return alarmlist
     ? alarmlist.reduce(function (PrevAlarm, NextAlarm) {
         return NextAlarm.time > PrevAlarm.time ? PrevAlarm : NextAlarm;
