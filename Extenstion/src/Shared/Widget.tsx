@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 //*
-import { ClockD } from "@/components/widgets/Clock";
-
+import { ClockD } from "@/Components/widgets/Clock";
+import { SCD } from "@/Components/widgets/shortcuts";
 export type AlarmD = {
   name: string;
   time: number;
@@ -13,6 +13,7 @@ export type WidgDTI /*Data Type Index*/ = {
   Quote: null;
   StopWatch: null;
   searchbar: null;
+  ShortCuts: null;
 };
 
 export type WidgT = keyof WidgDTI;

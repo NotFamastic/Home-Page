@@ -7,13 +7,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
 import {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
-} from "@/components/ui/button-group";
+} from "@/Components/ui/button-group";
 //*
 import { BaseWidg } from "../../shared/Widget";
 import { WidgDTI } from "../../shared/Widget";

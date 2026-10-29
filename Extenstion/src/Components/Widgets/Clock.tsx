@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
 //!
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/Components/ui/badge";
 //!
 import { getNextAlarm, BaseWidg } from "../../shared/Widget";
 //*

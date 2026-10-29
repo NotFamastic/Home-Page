@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import {
   Sidebar,
   SidebarContent,
@@ -20,8 +20,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/components/ui/sidebar";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+} from "@/Components/ui/sidebar";
+import { Field, FieldGroup, FieldLabel } from "@/Components/ui/field";
 import {
   Select,
   SelectLabel,
@@ -30,10 +30,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/select";
+import { Button } from "@/Components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
+import { Switch } from "@/Components/ui/switch";
 //!
 import { UserData } from "@/shared/userdata/Functions";
 import { SearchList } from "./widgets/SearchBar";

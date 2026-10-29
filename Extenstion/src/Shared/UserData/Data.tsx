@@ -2,6 +2,7 @@ import { UserD } from "./Functions";
 //!
 const testdata: UserD = {
   Widgets: {
+    ShortCuts: { type: "ShortCuts", data: null },
     clock: {
       type: "Clock",
       data: {
@@ -27,6 +28,7 @@ const testdata: UserD = {
   },
   SharedData: {
     layout: [
+      { i: "ShortCuts", x: 6, y: 1, w: 2, h: 2, moved: true, static: false },
       { i: "clock", x: 6, y: 1, w: 2, h: 2, moved: true, static: false },
       { i: "quote", x: 1, y: 2, w: 5, h: 3, moved: true, static: false },
       { i: "stopwatch", x: 9, y: 2, w: 2, h: 2, moved: true, static: false },
@@ -35,6 +37,7 @@ const testdata: UserD = {
     alarm: [{ name: "Wake up", time: 1735700400000, text: "Morning alarm" }],
   },
   Settings: { theme: "cyberpunk", dark: true, search: "b" },
+  SCD: undefined,
 };
 const DefaultData = {};
 export default testdata;
