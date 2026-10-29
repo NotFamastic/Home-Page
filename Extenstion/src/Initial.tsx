@@ -9,23 +9,25 @@ import { noCompactor } from "react-grid-layout/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 //!
-import SettingsUi from "./components/settings";
+import SettingsUi from "./Components/settings";
 import { UserData } from "./shared/userdata/Functions";
 //!
 import "./Style.css";
 //*type
 import type { UserD } from "./shared/userdata/Functions";
 //
-import clock from "@/components/widgets/Clock";
-import quote from "@/components/widgets/Quotes";
-import stopwatch from "@/components/widgets/Stopwatch";
-import searchbar from "@/components/widgets/SearchBar";
-import { WidgT,BaseWidg } from "./shared/Widget";
- const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
+import clock from "@/Components/widgets/Clock";
+import quote from "@/Components/widgets/Quotes";
+import stopwatch from "@/Components/widgets/Stopwatch";
+import searchbar from "@/Components/widgets/SearchBar";
+import ShortCuts from "./Components/widgets/shortcuts";
+import { WidgT, BaseWidg } from "./shared/Widget";
+const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
   Clock: clock,
   Quote: quote,
   StopWatch: stopwatch,
   searchbar: searchbar,
+  ShortCuts: ShortCuts,
 };
 //
 

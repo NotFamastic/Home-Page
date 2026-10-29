@@ -1,11 +1,10 @@
-import DefaultData from "./Data";
+import DefaultData from "@/shared/userdata/Data";
 import { create, useStore } from "zustand";
-import { useEffect } from "react";
 //*
 import { WidgT, WidgDTI, AlarmD } from "../Widget";
-import { SettD } from "@/components/settings";
+import { SettD } from "@/Components/settings";
 import { LayoutItem } from "react-grid-layout";
-
+import { SCD } from "@/Components/widgets/shortcuts";
 export type UserD = {
   Widgets: {
     [Id: string]: {
@@ -20,6 +19,7 @@ export type UserD = {
     alarm: AlarmD[] | null;
   };
   Settings: SettD;
+  SCD:SCD|undefined;
 };
 
 const stored = JSON.parse(localStorage.getItem("Data") ?? "{}");

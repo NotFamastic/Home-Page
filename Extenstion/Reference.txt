@@ -1,14 +1,23 @@
-!https://www.npmjs.com/package/react-grid-layout?activeTab=readme#api-reference
-!https://icons.getbootstrap.com/ 
-!https://github.com/public-apis/public-apis 
-!https://www.shadcn.io/theme/cyberpunk
-!https://base-ui.com/react/components/dialog#api-reference
-todo https://tailwindcss.com/docs/installation/using-vite
-todo https://app.unpkg.com/react-grid-layout@2.2.2/files/dist
+https://www.npmjs.com/package/react-grid-layout?activeTab=readme#api-reference
 
+https://www.shadcn.io/theme/cyberpunk
+
+https://ui.shadcn.com/docs/components/base/button
+https://base-ui.com/react/components/dialog#api-reference
+https://tailwindcss.com/docs/installation/using-vite
+
+https://lucide.dev/icons/globe-off?search=add
+
+https://zustand.docs.pmnd.rs/reference/middlewares/subscribe-with-selector
+
+*https://app.unpkg.com/react-grid-layout@2.2.2/files/dist
 *https://www.typescriptlang.org/docs/handbook/2/functions.html#parameter-destructuring
 *https://youtu.be/CgkZ7MvWUAA
-*https://www.chromium.org/developers/design-documents/create-amazing-password-forms/
 
+!removed
+?https://icons.getbootstrap.com/ 
 ?https://getbootstrap.com/docs/6.0/components/card/
 ?https://react-bootstrap.netlify.app/docs
+
+todo https://github.com/public-apis/public-apis 
+todo https://vercel.com/login
