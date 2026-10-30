@@ -105,7 +105,6 @@ async function fetchSuggestions(
       return data[1] ?? [];
   }
 }
-
 function SearchInput({
   className,
   icon,
