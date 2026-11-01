@@ -7,11 +7,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card";
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 //*
 import { BaseWidg } from "../../shared/Widget";
-import { WidgDTI } from "../../shared/Widget";
+import type { WidgDTI } from "../../shared/Widget";
 type Quote = { quote: string; author: string; id: number };
 
 async function getQuotes(): Promise<Quote[]> {
@@ -29,23 +29,35 @@ async function getQuotes(): Promise<Quote[]> {
   );
   return quotes;
 }
+function pick(list: Quote[]) {
+  return list[Math.floor(Math.random() * list.length)];
+}
 
-const pick = (list: Quote[]) => list[Math.floor(Math.random() * list.length)];
 //!
 function Ui() {
   const [list, setList] = useState<Quote[]>([]);
   const [quote, setQuote] = useState<Quote | null>(null);
 
   useEffect(() => {
-    getQuotes().then(setList).catch(console.error);
+    getQuotes()
+      .then((l) => {
+        setList(l)
+        setQuote(pick(l));
+      })
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
-    if (!list.length) return;
+  if (!list.length) return undefined;
+
+  const id = window.setInterval(() => {
     setQuote(pick(list));
-    const id = setInterval(() => setQuote(pick(list)), 30_000);
-    return () => clearInterval(id);
-  }, [list]);
+  }, 30_000);
+
+  return () => {
+    window.clearInterval(id);
+  };
+}, [list]);
 
   if (!quote) {
     return (

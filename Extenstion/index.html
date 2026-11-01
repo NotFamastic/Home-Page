@@ -5,14 +5,20 @@
     <link rel="stylesheet" href="src/Style.css" />
   </head>
   <body id="root">
-    <footer>
-      <h4>Created by sankalp Das</h4>
-      <h4>
-        Under
-        <a href="https://polyformproject.org/licenses/noncommercial/1.0.0"
-          >PolyForm Noncommercial License 1.0.0
-        </a>
-      </h4>
-    </footer>
+    <div class="flex h-full flex-col items-center justify-center">
+      <h1><span>Loading</span></h1>
+      <h2>Created By Famastic</h2>
+      <h5><span id="load"></span></h5>
+    </div>
+    <script>
+      const id = setInterval(() => {
+        const el = document.getElementById("load");
+        if (!el) {
+          clearInterval(id);
+          return;
+        }
+        el.textContent = `${Math.round(performance.now())} ms`;
+      }, 50);
+    </script>
   </body>
 </html>

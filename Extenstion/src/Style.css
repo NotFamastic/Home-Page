@@ -13,6 +13,7 @@
 @import "@fontsource-variable/lora";
 @import "@fontsource/barlow";
 @import "@fontsource/merriweather";
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--app-font, "Geist Variable", sans-serif);

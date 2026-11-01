@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 //*
-import { ClockD } from "@/Components/widgets/Clock";
-import { SCD } from "@/Components/widgets/shortcuts";
+import type { ClockD } from "@/components/widgets/Clock";
 export type AlarmD = {
   name: string;
   time: number;

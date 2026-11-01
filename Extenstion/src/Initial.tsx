@@ -1,27 +1,29 @@
 //!
-import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
+import { StrictMode } from "react";
 import { useStore } from "zustand";
 //!
 import { useContainerWidth, ReactGridLayout } from "react-grid-layout";
-import type { LayoutItem, Layout } from "react-grid-layout";
+import type { LayoutItem } from "react-grid-layout";
 import { noCompactor } from "react-grid-layout/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 //!
-import SettingsUi from "./Components/settings";
 import { UserData } from "./shared/userdata/Functions";
+import { gridstate } from "./shared/grid";
 //!
 import "./Style.css";
+import SettingsUi from "./components/settings";
 //*type
 import type { UserD } from "./shared/userdata/Functions";
 //
-import clock from "@/Components/widgets/Clock";
-import quote from "@/Components/widgets/Quotes";
-import stopwatch from "@/Components/widgets/Stopwatch";
-import searchbar from "@/Components/widgets/SearchBar";
-import ShortCuts from "./Components/widgets/shortcuts";
-import { WidgT, BaseWidg } from "./shared/Widget";
+import clock from "@/components/widgets/Clock";
+import quote from "@/components/widgets/Quotes";
+import stopwatch from "@/components/widgets/Stopwatch";
+import searchbar from "@/components/widgets/SearchBar";
+import ShortCuts from "@/components/widgets/shortcuts";
+import type { WidgT, BaseWidg } from "@/shared/Widget";
 const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
   Clock: clock,
   Quote: quote,
@@ -55,6 +57,11 @@ function GridUi(/*{}: {}*/): React.ReactElement {
             autoSize
             width={width}
             gridConfig={{ cols: 20, rowHeight: 50 }}
+
+            onDragStart={() => gridstate.setState({ drag: true })}
+            onDragStop={() => {
+              setTimeout(() => gridstate.setState({ drag: false }), 50);
+            }}
           >
             {layout.map((This: LayoutItem) => {
               //LayoutItem: [{ i: "clock-1", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 }]
@@ -76,20 +83,12 @@ function GridUi(/*{}: {}*/): React.ReactElement {
   );
 }
 
-function App() {
-  return (
-    <>
-      <SettingsUi />
-      <GridUi />
-    </>
-  );
-}
 const root = createRoot(document.getElementById("root")!);
 
 function apply(s: UserD["Settings"]) {
-  const root = document.documentElement;
-  root.dataset.theme = s.theme ?? "default";
-  root.classList.toggle("dark", s.dark ?? false);
+  const h = document.documentElement;
+  h.dataset.theme = s.theme ?? "default";
+  h.classList.toggle("dark", s.dark ?? false);
 }
 apply(UserData.getState().Settings);
 UserData.subscribe((UD, Old) => {
@@ -100,4 +99,11 @@ UserData.subscribe((UD, Old) => {
     apply(UD.Settings);
   }
 });
-root.render(<App />);
+root.render(
+  <StrictMode>
+    <>
+      <SettingsUi />
+      <GridUi />
+    </>
+  </StrictMode>,
+);

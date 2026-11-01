@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/Components/ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Sidebar,
   SidebarContent,
@@ -20,8 +20,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/Components/ui/sidebar";
-import { Field, FieldGroup, FieldLabel } from "@/Components/ui/field";
+} from "@/components/ui/sidebar";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Select,
   SelectLabel,
@@ -30,10 +30,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/Components/ui/select";
-import { Button } from "@/Components/ui/button";
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/Components/ui/switch";
+import { Switch } from "@/components/ui/switch";
 //!
 import { UserData } from "@/shared/userdata/Functions";
 import { SearchList } from "./widgets/SearchBar";
@@ -62,13 +62,17 @@ const sections = [
 //!
 export default function SettingsUi(): React.ReactElement {
   const SettD = useStore(UserData, (UD) => UD.Settings);
-  const [section, setSection] /*Section in use also trigers on rerender*/ =
+  const [section, setSection] =
     useState<(typeof sections)[number]["id"]>("appearance");
 
   function content() {
+    let ui: React.ReactNode;
     switch (section) {
+      default:
+        ui = <h1>Page Not Found</h1>;
+        break;
       case "appearance":
-        return (
+        ui = (
           <>
             <FieldGroup>
               <Field>
@@ -114,8 +118,9 @@ export default function SettingsUi(): React.ReactElement {
             </FieldGroup>
           </>
         );
+        break;
       case "preference":
-        return (
+        ui = (
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="searchselect">Search Engine</FieldLabel>
@@ -126,7 +131,7 @@ export default function SettingsUi(): React.ReactElement {
                 onValueChange={(v) => {
                   if (!v) return;
                   UserData.setState((UD) => ({
-                    Settings: { ...UD.Settings, search: v  },
+                    Settings: { ...UD.Settings, search: v },
                   }));
                 }}
               >
@@ -147,13 +152,13 @@ export default function SettingsUi(): React.ReactElement {
             </Field>
           </FieldGroup>
         );
+        break;
       case "accounts":
-        return (
-          <p className="text-muted-foreground">Account settings go here.</p>
-        );
+        ui = <p className="text-muted-foreground">Account settings go here.</p>;
+        break;
       case "data":
-        return (
-          <div className="flex flex-col gap-4">
+        ui = (
+          <>
             <Separator />
             <Button
               variant="destructive"
@@ -165,9 +170,11 @@ export default function SettingsUi(): React.ReactElement {
             >
               Remove DATA
             </Button>
-          </div>
+          </>
         );
+        break;
     }
+    return ui;
   }
 
   return (

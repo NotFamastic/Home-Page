@@ -2,42 +2,86 @@
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
 //!
-import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
-import { Button } from "@/Components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+  ItemGroup,
+  ItemFooter,
+} from "@/components/ui/item";
 
-import { GlobeOff } from "lucide-react";
-import { Plus } from "lucide-react";
+import { GlobeOff, Plus } from "lucide-react";
 //!
 import { BaseWidg } from "../../shared/Widget";
 //*type
 import { UserData } from "../../shared/userdata/Functions";
 import type { WidgDTI } from "../../shared/Widget";
-export type SCD = {
+type SC = {
   id: number;
   name: string;
   url: `${"https" | "http"}://${string}.${string}`;
   logo: string;
   key: string;
-}[];
+};
+export type SClist = SC[];
 //!
 function Ui(): React.ReactElement {
-  const list = useStore(UserData, (ud) => ud.SCD);
+  const Shortcutlist: SClist =
+    // useStore(
+    //   UserData,
+    //   (ud) => ud.SharedData.Shortcuts,
+    // );
+    [
+      {
+        id: 1,
+        name: "string",
+        url: `https://github.com/NotFamastic/Home-Page/pull/11`,
+        logo: "https://avatars.githubusercontent.com/u/158486761?v=4&size=64",
+        key: "string",
+      },
+    ];
   return (
-    <>
-      <div key="Shortcuts">
-        {list?.map((obj) => (
-          <Avatar key={obj.id}>
-            <AvatarImage src={obj.logo} />
-            <AvatarFallback>
-              <GlobeOff />
-            </AvatarFallback>
-          </Avatar>
+    <ItemGroup key="shortcuts">
+      <div key={"shortcuts"}>
+        {Shortcutlist?.map((data: SC) => (
+          <a
+            href={data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            key={data.id}
+            aria-label={data.name}
+          >
+            <Item key={data.id} variant={"outline"}>
+              <ItemContent>
+                <svg viewBox="0 0 200 200" width="200" height="200">
+                  <image
+                    href={data.logo}
+                    x="0"
+                    y="0"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                </svg>
+              </ItemContent>
+
+              <ItemFooter>{data.name}</ItemFooter>
+            </Item>
+          </a>
         ))}
       </div>
-      <Button key="addbtn">
-        <Plus />
-      </Button>
-    </>
+
+      <Item key={"actions"} variant={"muted"}>
+        <ItemActions>
+          <Button>
+            <Plus />
+          </Button>
+        </ItemActions>
+      </Item>
+    </ItemGroup>
   );
 }
 //!

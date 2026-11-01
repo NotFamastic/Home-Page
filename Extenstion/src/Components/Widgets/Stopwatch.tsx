@@ -4,19 +4,15 @@ import React, { useRef, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   ButtonGroup,
-  ButtonGroupSeparator,
   ButtonGroupText,
-} from "@/Components/ui/button-group";
+} from "@/components/ui/button-group";
 //*
-import { BaseWidg } from "../../shared/Widget";
-import { WidgDTI } from "../../shared/Widget";
+import { BaseWidg, type WidgDTI } from "../../shared/Widget";
+
 //!
 function Ui(): React.ReactElement {
   const [Isrunning, setRunning] = useState(false);
@@ -37,7 +33,7 @@ function Ui(): React.ReactElement {
 
   function Start() {
     setRunning(true);
-    startTimeRef.current = Date.now() - ElapsedTime; 
+    startTimeRef.current = Date.now() - ElapsedTime;
   }
 
   function FormatTime() {

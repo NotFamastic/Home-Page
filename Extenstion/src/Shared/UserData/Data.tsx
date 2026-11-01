@@ -1,8 +1,7 @@
-import { UserD } from "./Functions";
+import type { UserD } from "./Functions";
 //!
 const testdata: UserD = {
   Widgets: {
-    ShortCuts: { type: "ShortCuts", data: null },
     clock: {
       type: "Clock",
       data: {
@@ -25,6 +24,7 @@ const testdata: UserD = {
     quote: { type: "Quote", data: null },
     stopwatch: { type: "StopWatch", data: null },
     searchbar: { type: "searchbar", data: null },
+    ShortCuts: { type: "ShortCuts", data: null },
   },
   SharedData: {
     layout: [
@@ -35,10 +35,9 @@ const testdata: UserD = {
       { i: "searchbar", x: 12, y: 5, w: 7, h: 1, moved: true, static: false },
     ],
     alarm: [{ name: "Wake up", time: 1735700400000, text: "Morning alarm" }],
+    Shortcuts: [],
   },
   Settings: { theme: "cyberpunk", dark: true, search: "b" },
-  SCD: undefined,
 };
-const DefaultData = {};
+
 export default testdata;
-//!
