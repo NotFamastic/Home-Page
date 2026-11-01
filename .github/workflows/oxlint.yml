@@ -1,28 +1,32 @@
-name: Lint
+
+name: Oxlint
 
 on:
-  pull_request:
   push:
     branches: [main]
-
-permissions: {}
+  pull_request:
+    branches: [main]
 
 jobs:
-  oxlint:
-    runs-on: ubuntu-latest
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+
     steps:
-      # NOTE: For security, it is strongly recommended to pin all
-      # actions to a specific SHA hash instead of using a version
-      # tag like this.
-      - uses: actions/checkout@v7
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          persist-credentials: false
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
+          node-version: 22
           cache: pnpm
 
-      # alternatively use npm install / yarn install here
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Oxlint
+        run: pnpm lint
