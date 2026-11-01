@@ -1,17 +1,14 @@
 //!
 import React, { useEffect, useState } from "react";
+
 //!
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import type { WidgDTI } from "../../shared/Widget";
+
 //*
 import { BaseWidg } from "../../shared/Widget";
-import type { WidgDTI } from "../../shared/Widget";
 type Quote = { quote: string; author: string; id: number };
 
 async function getQuotes(): Promise<Quote[]> {
@@ -23,10 +20,7 @@ async function getQuotes(): Promise<Quote[]> {
 
   const res = await fetch("https://dummyjson.com/quotes?limit=0");
   const { quotes } = await res.json();
-  localStorage.setItem(
-    "QuotesCache",
-    JSON.stringify({ time: Date.now(), data: quotes }),
-  );
+  localStorage.setItem("QuotesCache", JSON.stringify({ time: Date.now(), data: quotes }));
   return quotes;
 }
 function pick(list: Quote[]) {
@@ -41,23 +35,23 @@ function Ui() {
   useEffect(() => {
     getQuotes()
       .then((l) => {
-        setList(l)
+        setList(l);
         setQuote(pick(l));
       })
       .catch(console.error);
   }, []);
 
   useEffect(() => {
-  if (!list.length) return undefined;
+    if (!list.length) return undefined;
 
-  const id = window.setInterval(() => {
-    setQuote(pick(list));
-  }, 30_000);
+    const id = window.setInterval(() => {
+      setQuote(pick(list));
+    }, 30_000);
 
-  return () => {
-    window.clearInterval(id);
-  };
-}, [list]);
+    return () => {
+      window.clearInterval(id);
+    };
+  }, [list]);
 
   if (!quote) {
     return (
@@ -88,7 +82,7 @@ function Ui() {
         </figure>
       </CardContent>
       <CardFooter>
-        <p className="text-sm text-muted-foreground text-right w-full">
+        <p className="w-full text-right text-sm text-muted-foreground">
           — {quote.author} <cite title="DummyJSON">from dummyjson.com</cite>
         </p>
       </CardFooter>

@@ -5,16 +5,12 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "types": ["vite/client","chrome"],
+    "types": ["vite/client", "chrome"],
     "lib": ["DOM", "ES2020"],
     "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/css.d.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/css.d.ts"]
 }

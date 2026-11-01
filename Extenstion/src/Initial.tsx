@@ -1,29 +1,35 @@
+import type { LayoutItem } from "react-grid-layout";
+
 //!
 import React from "react";
-import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { useStore } from "zustand";
+import { createRoot } from "react-dom/client";
 //!
 import { useContainerWidth, ReactGridLayout } from "react-grid-layout";
-import type { LayoutItem } from "react-grid-layout";
 import { noCompactor } from "react-grid-layout/core";
+import { useStore } from "zustand";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-//!
-import { UserData } from "./shared/userdata/Functions";
-import { gridstate } from "./shared/grid";
-//!
-import "./Style.css";
-import SettingsUi from "./components/settings";
-//*type
-import type { UserD } from "./shared/userdata/Functions";
+
+import type { WidgT, BaseWidg } from "@/shared/Widget";
+
 //
 import clock from "@/components/widgets/Clock";
+
+//!
+import "./Style.css";
 import quote from "@/components/widgets/Quotes";
-import stopwatch from "@/components/widgets/Stopwatch";
 import searchbar from "@/components/widgets/SearchBar";
 import ShortCuts from "@/components/widgets/shortcuts";
-import type { WidgT, BaseWidg } from "@/shared/Widget";
+import stopwatch from "@/components/widgets/Stopwatch";
+
+//*type
+import type { UserD } from "./shared/userdata/Functions";
+
+import SettingsUi from "./components/settings";
+import { gridstate } from "./shared/grid";
+//!
+import { UserData } from "./shared/userdata/Functions";
 const WidgCI: Record<WidgT, new (id: string) => BaseWidg> = {
   Clock: clock,
   Quote: quote,
@@ -92,10 +98,7 @@ function apply(s: UserD["Settings"]) {
 }
 apply(UserData.getState().Settings);
 UserData.subscribe((UD, Old) => {
-  if (
-    UD.Settings.theme !== Old.Settings.theme ||
-    UD.Settings.dark !== Old.Settings.dark
-  ) {
+  if (UD.Settings.theme !== Old.Settings.theme || UD.Settings.dark !== Old.Settings.dark) {
     apply(UD.Settings);
   }
 });

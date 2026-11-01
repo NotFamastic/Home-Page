@@ -1,7 +1,9 @@
+import { Settings as SettingsIcon } from "lucide-react";
 //!
 import React, { useState } from "react";
 import { useStore } from "zustand";
-import { Settings as SettingsIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 //!
 import {
   Dialog,
@@ -11,16 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Select,
@@ -31,11 +23,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
 //!
 import { UserData } from "@/shared/userdata/Functions";
+
 import { SearchList } from "./widgets/SearchBar";
 //*
 export type SettD = {
@@ -62,8 +64,7 @@ const sections = [
 //!
 export default function SettingsUi(): React.ReactElement {
   const SettD = useStore(UserData, (UD) => UD.Settings);
-  const [section, setSection] =
-    useState<(typeof sections)[number]["id"]>("appearance");
+  const [section, setSection] = useState<(typeof sections)[number]["id"]>("appearance");
 
   function content() {
     let ui: React.ReactNode;
@@ -189,9 +190,7 @@ export default function SettingsUi(): React.ReactElement {
       <DialogContent className="h-[70vh] overflow-hidden p-0 sm:max-w-3xl">
         <DialogHeader className="sr-only">
           <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>
-            Change how your page looks and works.
-          </DialogDescription>
+          <DialogDescription>Change how your page looks and works.</DialogDescription>
         </DialogHeader>
 
         <SidebarProvider className="h-full min-h-0 items-start">

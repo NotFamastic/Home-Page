@@ -1,15 +1,11 @@
 //!
 import React, { useRef, useEffect, useState } from "react";
-//!
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
-import {
-  ButtonGroup,
-  ButtonGroupText,
-} from "@/components/ui/button-group";
+import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group";
+//!
+import { Card, CardContent } from "@/components/ui/card";
+
 //*
 import { BaseWidg, type WidgDTI } from "../../shared/Widget";
 
@@ -49,11 +45,7 @@ function Ui(): React.ReactElement {
       <CardContent className="flex items-center justify-center">
         {Isrunning ? (
           <ButtonGroup className="w-full">
-            <Button
-              className="min-w-0 flex-1"
-              variant="default"
-              onClick={() => setRunning(false)}
-            >
+            <Button className="min-w-0 flex-1" variant="default" onClick={() => setRunning(false)}>
               Pause
             </Button>
 
@@ -73,10 +65,7 @@ function Ui(): React.ReactElement {
             </Button>
           </ButtonGroup>
         ) : (
-          <Button
-            variant={ElapsedTime > 0 ? "default" : "outline"}
-            onClick={Start}
-          >
+          <Button variant={ElapsedTime > 0 ? "default" : "outline"} onClick={Start}>
             {ElapsedTime > 0 ? `Resume ${FormatTime()}` : "Start"}
           </Button>
         )}

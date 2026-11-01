@@ -1,13 +1,16 @@
 //!
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
+
 //!
 import { Badge } from "@/components/ui/badge";
-//!
-import { getNextAlarm, BaseWidg } from "../../shared/Widget";
+
+import type { WidgDTI } from "../../shared/Widget";
+
 //*
 import { UserData } from "../../shared/userdata/Functions";
-import type { WidgDTI } from "../../shared/Widget";
+//!
+import { getNextAlarm, BaseWidg } from "../../shared/Widget";
 
 export type ClockD = {
   Time: {
@@ -44,7 +47,8 @@ const Default: ClockD = {
 };
 //!
 function Ui(Structure: ClockD): React.ReactElement {
-const [t, newt] = useState(() => new Date());  const Alarm = getNextAlarm(useStore(UserData, (UD) => UD.SharedData.alarm));
+  const [t, newt] = useState(() => new Date());
+  const Alarm = getNextAlarm(useStore(UserData, (UD) => UD.SharedData.alarm));
 
   useEffect(() => {
     const id = setInterval(() => newt(new Date()), 100);
@@ -58,7 +62,7 @@ const [t, newt] = useState(() => new Date());  const Alarm = getNextAlarm(useSto
   const days = Alarm
     ? Math.round(
         (Date.UTC(
-          new Date().getFullYear(),//?Impure functions
+          new Date().getFullYear(), //?Impure functions
           new Date().getMonth(),
           new Date().getDate(),
         ) -

@@ -1,10 +1,14 @@
-import DefaultData from "@/shared/userdata/Data";
+import type { LayoutItem } from "react-grid-layout";
+
 import { create } from "zustand";
+
+import type { SettD } from "@/components/settings";
+import type { SClist } from "@/components/widgets/shortcuts";
+
+import DefaultData from "@/shared/userdata/Data";
+
 //*
 import type { WidgT, WidgDTI, AlarmD } from "../Widget";
-import type { SettD } from "@/components/settings";
-import type { LayoutItem } from "react-grid-layout";
-import type { SClist } from "@/components/widgets/shortcuts";
 export type UserD = {
   Widgets: {
     [Id: string]: {

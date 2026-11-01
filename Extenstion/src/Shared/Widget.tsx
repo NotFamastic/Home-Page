@@ -1,4 +1,5 @@
 import React from "react";
+
 //*
 import type { ClockD } from "@/components/widgets/Clock";
 export type AlarmD = {

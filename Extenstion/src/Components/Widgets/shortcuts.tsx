@@ -1,6 +1,8 @@
+import { GlobeOff, Plus } from "lucide-react";
 //!
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
+
 //!
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,12 +17,12 @@ import {
   ItemFooter,
 } from "@/components/ui/item";
 
-import { GlobeOff, Plus } from "lucide-react";
-//!
-import { BaseWidg } from "../../shared/Widget";
+import type { WidgDTI } from "../../shared/Widget";
+
 //*type
 import { UserData } from "../../shared/userdata/Functions";
-import type { WidgDTI } from "../../shared/Widget";
+//!
+import { BaseWidg } from "../../shared/Widget";
 type SC = {
   id: number;
   name: string;
@@ -59,12 +61,7 @@ function Ui(): React.ReactElement {
             <Item key={data.id} variant={"outline"}>
               <ItemContent>
                 <svg viewBox="0 0 200 200" width="200" height="200">
-                  <image
-                    href={data.logo}
-                    x="0"
-                    y="0"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
+                  <image href={data.logo} x="0" y="0" preserveAspectRatio="xMidYMid slice" />
                 </svg>
               </ItemContent>
 

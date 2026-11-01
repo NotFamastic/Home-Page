@@ -1,16 +1,12 @@
+import type { SimpleIcon } from "simple-icons";
+
+import { SearchIcon } from "lucide-react";
 //!
 import React, { useEffect, useState } from "react";
-import { useStore } from "zustand";
-import { SearchIcon } from "lucide-react";
-
 //!
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { siBrave, siGoogle, siDuckduckgo, siDedge } from "simple-icons";
+import { useStore } from "zustand";
+
 import {
   Command,
   CommandItem,
@@ -18,16 +14,23 @@ import {
   CommandGroup,
   CommandEmpty,
 } from "@/components/ui/command";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 //!
-import { SearchInput } from "../custom-ui";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { gridstate } from "@/shared/grid";
+import { UserData } from "@/shared/userdata/Functions";
+
 //!
 import type { WidgDTI } from "../../shared/Widget";
+
 import { BaseWidg } from "../../shared/Widget";
-import { UserData } from "@/shared/userdata/Functions";
 //!
-import { siBrave, siGoogle, siDuckduckgo, siDedge } from "simple-icons";
-import type { SimpleIcon } from "simple-icons";
-import { gridstate } from "@/shared/grid";
+import { SearchInput } from "../custom-ui";
 //*type
 type engine = (typeof SearchList)[number]["value"];
 type query = string;
@@ -58,16 +61,8 @@ const links: {
     "https://suggestqueries.google.com/complete/search?client=firefox&q=",
     siGoogle,
   ],
-  d: [
-    "https://duckduckgo.com/?q=",
-    "https://duckduckgo.com/ac/?q=",
-    siDuckduckgo,
-  ],
-  e: [
-    "https://www.bing.com/search?q=",
-    "https://api.bing.com/osjson.aspx?query=",
-    siDedge,
-  ],
+  d: ["https://duckduckgo.com/?q=", "https://duckduckgo.com/ac/?q=", siDuckduckgo],
+  e: ["https://www.bing.com/search?q=", "https://api.bing.com/osjson.aspx?query=", siDedge],
 };
 
 const proxyPaths: Record<engine, string> = {
@@ -77,15 +72,9 @@ const proxyPaths: Record<engine, string> = {
   e: "/bing-suggest",
 };
 
-async function fetchSuggestions(
-  q: query,
-  e: engine,
-  s: AbortSignal,
-): Promise<suggest[]> {
+async function fetchSuggestions(q: query, e: engine, s: AbortSignal): Promise<suggest[]> {
   const url = links[e][1] + encodeURIComponent(q);
-  const requestUrl = import.meta.env.DEV
-    ? `${proxyPaths[e]}${new URL(url).search}`
-    : url;
+  const requestUrl = import.meta.env.DEV ? `${proxyPaths[e]}${new URL(url).search}` : url;
 
   const res = await fetch(requestUrl, { signal: s });
   if (!res.ok) return [];
@@ -169,12 +158,7 @@ function Ui(): React.ReactElement {
             onValueChange={setQ}
             placeholder="Search..."
             icon={
-              <svg
-                viewBox="0 0 24 24"
-                width={20}
-                height={20}
-                fill="currentColor"
-              >
+              <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor">
                 <path d={links[engine][2].path} />
               </svg>
             }
@@ -192,11 +176,7 @@ function Ui(): React.ReactElement {
                   {suggestlist.map(
                     (s) =>
                       s !== q && (
-                        <CommandItem
-                          key={s}
-                          value={s}
-                          onSelect={() => search(s)}
-                        >
+                        <CommandItem key={s} value={s} onSelect={() => search(s)}>
                           <SearchIcon />
                           {s}
                         </CommandItem>

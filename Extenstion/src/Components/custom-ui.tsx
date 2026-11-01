@@ -1,11 +1,9 @@
+import { Command as CommandPrimitive } from "cmdk";
 //!
 import React from "react";
-import { Command as CommandPrimitive } from "cmdk";
+
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
-import {
-  InputGroup,
-  InputGroupAddon,
-} from "@/components/ui/input-group";
 //*For searchbar.tsx
 export function SearchInput({
   className,
